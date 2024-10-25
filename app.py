@@ -8,6 +8,12 @@ from helpers import login_required, apology
 # Configure application
 app = Flask(__name__)
 
+# Allow flask to access pictures
+picturefolder = os.path.join('static', 'images')
+
+app.config['UPLOAD_FOLDER'] = picturefolder
+
+
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -30,7 +36,7 @@ def after_request(response):
 def index():
     """Show list of spellbooks"""
 
-    return render_template("TODO")
+    return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -119,4 +125,16 @@ def register():
     else:
         return render_template("register.html")
 
+
+@app.route("/new_spellbook", methods=["GET", "POST"])
+@login_required
+def new_spellbook():
+
+    if request.method == "GET":
+
+        return render_template("new_spellbook.html")
+
+    if request.method == "POST":
+
+        return redirect("/")
 
